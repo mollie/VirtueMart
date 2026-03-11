@@ -1,0 +1,42 @@
+<extension type="component" version="5.0" method="upgrade">
+    <name>Mollie</name>
+    <version>1.0.0</version>
+    <author>Mollie</author>
+    <description>Mollie Component - Modern Joomla 5 Architecture</description>
+
+    <namespace path="src">Mollie\Component\Mollie</namespace>
+
+    <scriptfile>script.php</scriptfile>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+    <administration>
+        <menu>Mollie</menu>
+        <files folder="admin">
+            <filename>mollie.xml</filename>
+            <folder>assets</folder>
+            <folder>services</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+            <folder>sql</folder>
+        </files>
+        <languages folder="language">
+            <language tag="en-GB">en-GB/en-GB.com_mollie.ini</language>
+        </languages>
+    </administration>
+
+    <!-- Media files for Web Asset Manager -->
+    <media destination="com_mollie" folder="../media/com_mollie">
+        <folder>css</folder>
+    </media>
+</extension>

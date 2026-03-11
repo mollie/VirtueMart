@@ -1,0 +1,103 @@
+.mollie-banner {
+    margin-bottom: 50px;
+}
+
+.mollie-banner img {
+    max-width: 168px;
+    height: auto;
+}
+
+.mollie-config-container,
+.mollie-config-section {
+    max-width: 700px;
+    margin: 20px 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.mollie-section-title {
+    margin: 40px 0 25px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.mollie-config-container .control-group,
+.mollie-config-section .control-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.mollie-config-container .control-label,
+.mollie-config-section .control-label {
+    width: 200px;
+    padding-right: 20px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.mollie-config-container .controls,
+.mollie-config-section .controls {
+    flex: 1;
+}
+
+.mollie-config-container input[type="text"],
+.mollie-config-container input[type="password"],
+.mollie-config-container select,
+.mollie-config-section select {
+    width: 100%;
+    max-width: 400px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.mollie-status {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.mollie-status-connected {
+    color: #28a745 !important;
+}
+
+.mollie-status-disconnected {
+    color: #dc3545 !important;
+}
+
+.mollie-version {
+    color: #666;
+    font-size: 14px;
+}
+
+.mollie-credentials-link {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.mollie-credentials-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+    .mollie-config-container .control-group,
+    .mollie-config-section .control-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mollie-config-container .control-label,
+    .mollie-config-section .control-label {
+        width: 100%;
+        text-align: left;
+        padding-right: 0;
+        margin-bottom: 5px;
+    }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" version="3.9" method="upgrade">
+    <name>Mollie Payment Package</name>
+    <packagename>mollie</packagename>
+    <version>1.0.0</version>
+    <author>Mollie</author>
+    <authorEmail>info@mollie.com</authorEmail>
+    <authorUrl>https://www.mollie.com</authorUrl>
+    <copyright>Copyright (C) 2025 Mollie B.V. All rights reserved.</copyright>
+    <license>GNU General Public License version 3 or later</license>
+    <description>Mollie payment integration package for VirtueMart</description>
+
+    <files>
+        <file type="component" id="com_mollie">com_mollie.zip</file>
+        <file type="plugin" id="mollie" group="vmpayment">plg_vmpayment_mollie.zip</file>
+    </files>
+
+    <updateservers>
+        <server type="extension" priority="1" name="Mollie VirtueMart Updates">
+            https://www.mollie.com/updates/virtuemart/extension.xml
+        </server>
+    </updateservers>
+</extension>

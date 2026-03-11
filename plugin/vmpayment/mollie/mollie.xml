@@ -1,0 +1,34 @@
+<extension type="plugin" group="vmpayment" method="upgrade">
+    <name>Mollie</name>
+    <version>1.0.0</version>
+    <author>Mollie</author>
+    <description>Mollie Payment Plugin</description>
+    <scriptfile>script.php</scriptfile>
+    <files>
+        <filename plugin="mollie">mollie.php</filename>
+        <filename>script.php</filename>
+        <filename>include_mollie.php</filename>
+        <folder>core</folder>
+        <folder>src</folder>
+        <folder>language</folder>
+        <folder>fields</folder>
+        <folder>assets</folder>
+        <folder>tmpl</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_vmpayment_mollie.ini</language>
+    </languages>
+    <vmconfig>
+        <fields name="params" addfieldpath="/plugins/vmpayment/mollie/fields">
+            <fieldset name="basic">
+                <field
+                    name="config_message"
+                    type="configmessage"
+                    label=""
+                    description=""
+                />
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
+            </fieldset>
+        </fields>
+    </vmconfig>
+</extension>

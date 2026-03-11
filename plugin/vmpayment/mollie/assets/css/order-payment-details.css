@@ -1,0 +1,120 @@
+/**
+ * Mollie Order Payment Details Styles
+ * Displayed in VirtueMart backend order details page
+ */
+
+.mollie-payment-details {
+    width: 100%;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.mollie-payment-details h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+.mollie-payment-details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mollie-payment-details table td {
+    padding: 6px 0;
+    vertical-align: middle;
+}
+
+.mollie-payment-details table td.label {
+    color: #333;
+    width: 300px;
+}
+
+.mollie-payment-details table td.value {
+    color: #333;
+}
+
+.mollie-payment-method-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mollie-payment-method-logo {
+    height: 25px;
+    max-width: 50px;
+    object-fit: contain;
+}
+
+.mollie-payment-actions {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+.mollie-payment-actions .vm-button-correct {
+    margin-left: 5px;
+}
+
+.mollie-payment-actions .vm-button-correct.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#mollie-capture-amount-row {
+    display: none;
+}
+
+#mollie-capture-amount-row input.inputbox {
+    padding: 4px 8px;
+}
+
+#mollie-capture-amount-row label {
+    font-weight: normal;
+}
+
+.mollie-message {
+    padding: 10px 15px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    border: 1px solid;
+}
+
+.mollie-message-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.mollie-message-error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.mollie-message-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.mollie-message-warning {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.mollie-message-warning p {
+    margin: 0;
+}
