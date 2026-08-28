@@ -2,7 +2,7 @@
 <extension type="package" version="3.9" method="upgrade">
     <name>Mollie Payment Package</name>
     <packagename>mollie</packagename>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <author>Mollie</author>
     <authorEmail>info@mollie.com</authorEmail>
     <authorUrl>https://www.mollie.com</authorUrl>

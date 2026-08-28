@@ -64,7 +64,7 @@ class Payment extends BaseDto
     /**
      * @var string[]
      */
-    protected $methods;
+    protected $methods = array();
     /**
      * @var Address
      */

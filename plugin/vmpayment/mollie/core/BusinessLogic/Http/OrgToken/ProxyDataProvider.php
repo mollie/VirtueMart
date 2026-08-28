@@ -62,11 +62,13 @@ class ProxyDataProvider
      */
     public function transformPayment(Payment $payment)
     {
-        $method = $payment->getMethods();
-        if (count($method) === 1) {
-            $method = implode('', $method);
-        }
-        $paymentMethodConfig = $this->getPaymentMethodService()->getPaymentConfigurationById($payment->getProfileId(), 'mollie_' . $method);
+        $methods = $payment->getMethods();
+        $method = count($methods) === 1 ? implode('', $methods) : $methods;
+        $methodId = is_string($method) && $method !== '' ? $method : null;
+
+        $paymentMethodConfig = $methodId === null
+            ? null
+            : $this->getPaymentMethodService()->getPaymentConfigurationById($payment->getProfileId(), 'mollie_' . $methodId);
 
         $result = array(
             'profileId' => $payment->getProfileId(),
@@ -76,12 +78,12 @@ class ProxyDataProvider
             'redirectUrl' => $payment->getRedirectUrl(),
             'webhookUrl' =>  $payment->getWebhookUrl(),
             'locale' => $payment->getLocale(),
-            'method' => $method,
+            'method' => $method ?: null,
             'metadata' => $payment->getMetadata(),
             'lines' =>  $this->transformOrderLines($payment->getLines(), true)
         );
 
-        if ($paymentMethodConfig->getCaptureOption() && in_array($paymentMethodConfig->getCaptureOption(), self::$availableCaptureMods)) {
+        if ($paymentMethodConfig && $paymentMethodConfig->getCaptureOption() && in_array($paymentMethodConfig->getCaptureOption(), self::$availableCaptureMods)) {
             $result['captureMode'] = $paymentMethodConfig->getCaptureOption();
 
             if ($method === PaymentMethods::Riverty) {
@@ -104,7 +106,7 @@ class ProxyDataProvider
             );
         }
 
-        if ($billingAddress && (array_key_exists($method, PaymentMethodConfig::$apiMethodRestrictions))) {
+        if ($billingAddress && $methodId !== null && array_key_exists($methodId, PaymentMethodConfig::$apiMethodRestrictions)) {
             $result['billingAddress'] = array(
                 'streetAndNumber' => $billingAddress->getStreetAndNumber(),
                 'streetAdditional' => $billingAddress->getStreetAdditional(),

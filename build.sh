@@ -5,7 +5,7 @@
 
 # Configuration
 PACKAGE_NAME="pkg_mollie"
-VERSION="1.0.0"
+VERSION="1.0.1"
 OUTPUT_FILE="${PACKAGE_NAME}_${VERSION}.zip"
 TEMP_DIR="build_temp"
 
