@@ -1,6 +1,6 @@
 <extension type="plugin" group="vmpayment" method="upgrade">
     <name>Mollie</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <author>Mollie</author>
     <description>Mollie Payment Plugin</description>
     <scriptfile>script.php</scriptfile>

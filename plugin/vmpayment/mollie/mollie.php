@@ -269,6 +269,49 @@ class plgVmPaymentMollie extends vmPSPlugin
     }
 
     /**
+     * Validate the selected payment method when it is chosen in the cart
+     *
+     * @param VirtueMartCart $cart
+     * @param string $msg
+     *
+     * @return bool|null
+     */
+    public function plgVmOnSelectCheckPayment(VirtueMartCart $cart, &$msg)
+    {
+        return $this->onSelectCheck($cart);
+    }
+
+    /**
+     * Calculate the price of the selected payment method and set its display name
+     * Without this hook VirtueMart treats the method as invalid and resets the selection
+     *
+     * @param VirtueMartCart $cart
+     * @param array $cart_prices
+     * @param string $cart_prices_name
+     *
+     * @return bool|null
+     */
+    public function plgVmOnSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name)
+    {
+        return $this->onSelectedCalculatePrice($cart, $cart_prices, $cart_prices_name);
+    }
+
+    /**
+     * Report the selectable methods, legacy trigger used when checkAutomaticLegacy is enabled
+     * The non legacy plgVmOnCheckAutomaticSelected is inherited from vmPSPlugin
+     *
+     * @param VirtueMartCart $cart
+     * @param array $cart_prices
+     * @param int $paymentCounter
+     *
+     * @return array|null
+     */
+    public function plgVmOnCheckAutomaticSelectedPayment(VirtueMartCart $cart, array $cart_prices, &$paymentCounter)
+    {
+        return $this->onCheckAutomaticSelected($cart, $cart_prices, $paymentCounter);
+    }
+
+    /**
      * Validate and correct payment method during checkout
      * This hook runs BEFORE order creation
      * Fixes the issue where all Mollie methods share payment_element='mollie'

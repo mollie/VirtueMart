@@ -63,8 +63,8 @@ class ProxyDataProvider
     public function transformPayment(Payment $payment)
     {
         $methods = $payment->getMethods();
-        $method = count($methods) === 1 ? implode('', $methods) : $methods;
-        $methodId = is_string($method) && $method !== '' ? $method : null;
+        $methodId = $this->resolveMethodId($methods);
+        $method = $methodId !== null ? $methodId : (count($methods) > 1 ? $methods : null);
 
         $paymentMethodConfig = $methodId === null
             ? null
@@ -78,7 +78,7 @@ class ProxyDataProvider
             'redirectUrl' => $payment->getRedirectUrl(),
             'webhookUrl' =>  $payment->getWebhookUrl(),
             'locale' => $payment->getLocale(),
-            'method' => $method ?: null,
+            'method' => $method,
             'metadata' => $payment->getMetadata(),
             'lines' =>  $this->transformOrderLines($payment->getLines(), true)
         );
@@ -139,10 +139,9 @@ class ProxyDataProvider
             $orderLines[] = $totalAdjustment;
         }
 
-        $method = $order->getMethods();
-        if (count($method) === 1) {
-            $method = implode('', $method);
-        }
+        $methods = $order->getMethods();
+        $methodId = $this->resolveMethodId($methods);
+        $method = $methodId !== null ? $methodId : (count($methods) > 1 ? $methods : null);
 
         $orderData = array(
             'profileId' => $order->getProfileId(),
@@ -215,9 +214,12 @@ class ProxyDataProvider
                 'unitPrice' => $orderLine->getUnitPrice()->toArray(),
                 'totalAmount' => $orderLine->getTotalAmount()->toArray(),
                 'vatRate' => $orderLine->getVatRate(),
-                'vatAmount' => $orderLine->getVatAmount()->toArray(),
                 'sku' => $orderLine->getSku()
             );
+
+            if ($vatAmount = $orderLine->getVatAmount()) {
+                $orderLineData['vatAmount'] = $vatAmount->toArray();
+            }
 
             if (!$isPayment) {
                 $orderLineData['name'] = $orderLine->getName();
@@ -563,5 +565,24 @@ class ProxyDataProvider
             'locale' => $customer->getLocale(),
             'metadata' => $customer->getMetadata(),
         );
+    }
+
+    /**
+     * Resolves a single Mollie method id from the method restriction list
+     * Returns null when there is no restriction, or when more than one method is allowed
+     *
+     * @param string[] $methods
+     *
+     * @return string|null
+     */
+    protected function resolveMethodId(array $methods)
+    {
+        if (count($methods) !== 1) {
+            return null;
+        }
+
+        $method = implode('', $methods);
+
+        return $method !== '' ? $method : null;
     }
 }

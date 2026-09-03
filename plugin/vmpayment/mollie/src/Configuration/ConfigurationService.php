@@ -12,7 +12,7 @@ use Mollie\Payment\Configuration\Mapping\OrderStatusMappingDefaults;
 class ConfigurationService extends Configuration
 {
     const CLASS_NAME = __CLASS__;
-    const VERSION = '1.0.1';
+    const VERSION = '1.0.2';
     const VERSION_CHECK_URL = 'https://raw.githubusercontent.com/mollie/virtuemart/master/composer.json';
     const PLUGIN_DOWNLOAD_URL = 'https://github.com/mollie/virtuemart/releases';
     const MIN_LOG_LEVEL = Logger::INFO;

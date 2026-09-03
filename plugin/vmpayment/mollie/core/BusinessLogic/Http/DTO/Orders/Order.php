@@ -34,7 +34,7 @@ class Order extends BaseDto
     /**
      * @var string[]
      */
-    protected $methods;
+    protected $methods = array();
     /**
      * @var Amount
      */
