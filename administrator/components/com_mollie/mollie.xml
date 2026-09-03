@@ -1,6 +1,6 @@
 <extension type="component" version="5.0" method="upgrade">
     <name>Mollie</name>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <author>Mollie</author>
     <description>Mollie Component - Modern Joomla 5 Architecture</description>
 

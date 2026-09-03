@@ -62,11 +62,13 @@ class ProxyDataProvider
      */
     public function transformPayment(Payment $payment)
     {
-        $method = $payment->getMethods();
-        if (count($method) === 1) {
-            $method = implode('', $method);
-        }
-        $paymentMethodConfig = $this->getPaymentMethodService()->getPaymentConfigurationById($payment->getProfileId(), 'mollie_' . $method);
+        $methods = $payment->getMethods();
+        $methodId = $this->resolveMethodId($methods);
+        $method = $methodId !== null ? $methodId : (count($methods) > 1 ? $methods : null);
+
+        $paymentMethodConfig = $methodId === null
+            ? null
+            : $this->getPaymentMethodService()->getPaymentConfigurationById($payment->getProfileId(), 'mollie_' . $methodId);
 
         $result = array(
             'profileId' => $payment->getProfileId(),
@@ -81,7 +83,7 @@ class ProxyDataProvider
             'lines' =>  $this->transformOrderLines($payment->getLines(), true)
         );
 
-        if ($paymentMethodConfig->getCaptureOption() && in_array($paymentMethodConfig->getCaptureOption(), self::$availableCaptureMods)) {
+        if ($paymentMethodConfig && $paymentMethodConfig->getCaptureOption() && in_array($paymentMethodConfig->getCaptureOption(), self::$availableCaptureMods)) {
             $result['captureMode'] = $paymentMethodConfig->getCaptureOption();
 
             if ($method === PaymentMethods::Riverty) {
@@ -104,7 +106,7 @@ class ProxyDataProvider
             );
         }
 
-        if ($billingAddress && (array_key_exists($method, PaymentMethodConfig::$apiMethodRestrictions))) {
+        if ($billingAddress && $methodId !== null && array_key_exists($methodId, PaymentMethodConfig::$apiMethodRestrictions)) {
             $result['billingAddress'] = array(
                 'streetAndNumber' => $billingAddress->getStreetAndNumber(),
                 'streetAdditional' => $billingAddress->getStreetAdditional(),
@@ -137,10 +139,9 @@ class ProxyDataProvider
             $orderLines[] = $totalAdjustment;
         }
 
-        $method = $order->getMethods();
-        if (count($method) === 1) {
-            $method = implode('', $method);
-        }
+        $methods = $order->getMethods();
+        $methodId = $this->resolveMethodId($methods);
+        $method = $methodId !== null ? $methodId : (count($methods) > 1 ? $methods : null);
 
         $orderData = array(
             'profileId' => $order->getProfileId(),
@@ -213,9 +214,12 @@ class ProxyDataProvider
                 'unitPrice' => $orderLine->getUnitPrice()->toArray(),
                 'totalAmount' => $orderLine->getTotalAmount()->toArray(),
                 'vatRate' => $orderLine->getVatRate(),
-                'vatAmount' => $orderLine->getVatAmount()->toArray(),
                 'sku' => $orderLine->getSku()
             );
+
+            if ($vatAmount = $orderLine->getVatAmount()) {
+                $orderLineData['vatAmount'] = $vatAmount->toArray();
+            }
 
             if (!$isPayment) {
                 $orderLineData['name'] = $orderLine->getName();
@@ -561,5 +565,24 @@ class ProxyDataProvider
             'locale' => $customer->getLocale(),
             'metadata' => $customer->getMetadata(),
         );
+    }
+
+    /**
+     * Resolves a single Mollie method id from the method restriction list
+     * Returns null when there is no restriction, or when more than one method is allowed
+     *
+     * @param string[] $methods
+     *
+     * @return string|null
+     */
+    protected function resolveMethodId(array $methods)
+    {
+        if (count($methods) !== 1) {
+            return null;
+        }
+
+        $method = implode('', $methods);
+
+        return $method !== '' ? $method : null;
     }
 }

@@ -64,7 +64,7 @@ class Payment extends BaseDto
     /**
      * @var string[]
      */
-    protected $methods;
+    protected $methods = array();
     /**
      * @var Address
      */
@@ -140,8 +140,11 @@ class Payment extends BaseDto
         $result->metadata = (array)static::getValue($raw, 'metadata', array());
         $result->lines = OrderLine::fromArrayBatch(static::getValue($raw, 'lines', array()));
 
-        $result->dueDate = \DateTime::createFromFormat(Order::MOLLIE_DATE_FORMAT, static::getValue($raw, 'dueDate'));
-        $result->expiresAt = \DateTime::createFromFormat(DATE_ATOM, static::getValue($raw, 'expiresAt'));
+        $dueDate = static::getValue($raw, 'dueDate');
+        $result->dueDate = $dueDate ? \DateTime::createFromFormat(Order::MOLLIE_DATE_FORMAT, $dueDate) : null;
+
+        $expiresAt = static::getValue($raw, 'expiresAt');
+        $result->expiresAt = $expiresAt ? \DateTime::createFromFormat(DATE_ATOM, $expiresAt) : null;
 
         $shippingAddress = static::getValue($raw, 'shippingAddress', array());
         $billingAddress = static::getValue($raw, 'billingAddress', array());
