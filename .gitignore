@@ -1,3 +1,4 @@
 .idea
 *.zip
 vendor/
+.claude/settings.local.json
